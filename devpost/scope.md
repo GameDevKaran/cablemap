@@ -1,13 +1,13 @@
 ---
 doc: scope
-status: draft
+status: approved
 ---
 
 # CableMap
 
 Validate a small AV signal path, explain broken connections and export a useful patch list.
 
-This preserves the finalized portfolio brief without adding features. It is an agent-prepared scope for the required learner review, not a claim of a completed learner interview.
+This preserves the finalized portfolio brief without adding features. The learner explicitly approved this scope on 20 October 2026; the concept was originally agent-proposed, and that provenance is retained.
 
 ## The Unique Kernel
 Explain why a particular connection cannot carry the declared signal, with the offending path visible. Unknown conversions stay unknown instead of being declared compatible.
@@ -19,7 +19,7 @@ A community presenter arranging a small AV desk before an event, currently check
 Select devices from a six-type authored catalog; connect declared input/output ports; inspect direction, compatibility and occupied-input errors; repair the path; save/reload locally; export a printable patch list and labels. A keyboard-accessible list editor accompanies the diagram.
 
 ## Inspiration & Identity
-Clear, practical signal-path explanations. Specific visual direction has not been supplied by the learner; retain that question for the product stage. WireViz is a known adjacent documentation tool, not evidence that the underlying diagramming idea is novel.
+Clear, practical signal-path explanations. The learner requests clear visual feedback and a complete, demonstrable workflow. First-screen layout and visual style remain for the product stage. WireViz is a known adjacent documentation tool, not evidence that the underlying diagramming idea is novel.
 
 ## Why This Matters to the Learner
 The user wants the finalized eight urgent applications built, deployed and verified by October24 IST. A personal motivation or learning outcome specific to AV work has not been supplied and is not invented here.
@@ -36,5 +36,15 @@ More verified device profiles and richer diagram layout, only after the complete
 ## Explicitly Cut
 No mains wiring, soldering, pin-level electrical advice, power capacity, phantom power, automatic hardware discovery or arbitrary adapter compatibility. These require information beyond the declared low-voltage signal model.
 
-## Pending Learner Review
-Confirm that this retained scope matches the intended project or state a change. Approval is not inferred from silence; the existing portfolio concept and all completed Amazon work remain preserved meanwhile.
+## Learner Approval
+Explicitly approved on 20 October 2026:
+
+> Approved. The proposed CableMap scope matches my intended project.
+>
+> Keep the six AV device types, accessible signal-path editor, connection compatibility and occupied-port validation, local save/reload, and printable patch-list export. Prioritize clear visual feedback and a complete, demonstrable workflow.
+>
+> No power or pin-level wiring guidance, and no unnecessary feature expansion.
+>
+> Proceed through the official Devpost Learn Skill Pack workflow, including the PRD and technical specification, while keeping our October 24 development and deployment target in mind.
+
+This approves the scope only. PRD and technical specification approval will be recorded from their actual reviews.

@@ -6,6 +6,8 @@ License: MIT, copyright2026 Devpost; retain the upstream license with copied ski
 
 The actual 1-start and2-scope instructions and templates were read for this project. Existing project artifacts were inspected: no learner profile, scope, PRD, spec or checklist existed. The project folder contains this project's own foundation, not an unrelated application. Personal profile and credential files are ignored before writing.
 
-Known background and the existing CableMap concept are carried forward truthfully. The learning intention question is pending; scope is a draft awaiting learner review. No approvals, learner answers, personal reflections or finished course stages are fabricated. The original portfolio brief is a technical input, not proof that the course was previously executed. No archived application's learner artifacts were reused.
+Known background and the existing CableMap concept are carried forward truthfully. The learning intention question is pending. The learner explicitly approved the six-device scope on 20 October 2026, including accessible editing, compatibility and occupied-port checks, local save/reload, printable export, clear feedback and no scope expansion. The complete approval is retained in devpost/scope.md. No personal reflection or completion of later stages is inferred.
+
+The actual 3-prd instructions, reference guide and template have been read. The first-screen layout question is pending; no PRD/spec approval or application implementation is claimed. The original portfolio brief is a technical input, not proof that the course was previously executed. No archived application's learner artifacts were reused.
 
 The user alone handles Devpost and writes required submission content. This workflow uses local skill files and GitHub provenance; it does not authorize browsing or signing into Devpost.
