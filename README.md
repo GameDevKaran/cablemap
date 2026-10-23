@@ -4,7 +4,9 @@ Validate small AV signal graphs and export patch lists.
 
 ## Status
 
-The complete local browser application is implemented. It validates declared AV connections, explains upstream gaps, saves/reloads locally, and prints the reviewed patch list. Eighteen domain tests and sixteen local browser checks pass. Public deployment is not yet verified. Generic profiles are an authored planning model, not tested commercial hardware specifications.
+**Live:** https://cablemap-564976398462.web.app
+
+The application validates declared AV connections, explains upstream gaps, saves/reloads locally, and prints the reviewed patch list. Eighteen domain tests, sixteen local browser checks, and the same sixteen checks against the public HTTPS deployment pass. Generic profiles are an authored planning model, not tested commercial hardware specifications.
 
 The scope is owner-approved. The owner delegated routine layout decisions and instructed continued implementation. [Product requirements](devpost/prd.md), [technical specification](devpost/spec.md), and [build record](devpost/checklist.md) preserve that provenance; formal learner review and personal reflection are not fabricated.
 

@@ -1,6 +1,10 @@
 # CableMap static release
 
-Status: complete verified local build. The owner approved USD1 for CableMap through30 November2026 under `user-20261023-cablemap-firebase-usd1`; public deployment/live verification is the next step. Source remains private. Only project `tough-melody-508008-p8` (number `564976398462`) and account `cgkaransahu@gmail.com` are authorized.
+Status: **public and browser-verified** at https://cablemap-564976398462.web.app . The owner approved USD1 for CableMap through30 November2026 under `user-20261023-cablemap-firebase-usd1`. Source remains private. Only project `tough-melody-508008-p8` (number `564976398462`) and account `cgkaransahu@gmail.com` are authorized.
+
+Actual release: version `afb7a45630d24851`, live release `1792748450251000`, provider time `2026-10-23T09:40:50.251Z`; source `9a55a2b77b22f25ff28d69e06b99fea57cf1ee63`. All16 public checks passed, including real browser persistence and print. `.local/firebase-release.json` preserves recovery metadata and source-file hashes; `.local/live-browser/` preserves live evidence. Do not redeploy or repeat passed checks without a change or concrete concern.
+
+The first site-create attempt returned404 because the GCP project was not registered with Firebase. Adding Firebase to this exact existing project succeeded and provisioned its default empty Hosting site; only the separate CableMap site received application content. The dedicated site was then created and deployed successfully. No new GCP project, Cloud Run app, database, Auth instance or model service was created, and no older app was changed.
 
 ## Concrete deployment
 

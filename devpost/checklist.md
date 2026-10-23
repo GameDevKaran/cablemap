@@ -29,7 +29,7 @@ The owner explicitly delegated the layout decision and then instructed continued
   - Learner check: Change a label, save and reload, then inspect the print preview and report anything unclear.
   - Commit: test: verify complete CableMap local workflow and recovery
 
-- [ ] **3. Publish and verify the public application**
+- [x] **3. Publish and verify the public application**
   - Becomes usable: Owner and reviewers can try the app over HTTPS.
   - Why now: Local tests do not establish release readiness.
   - PRD ref: What We're Building.
@@ -41,7 +41,7 @@ The owner explicitly delegated the layout decision and then instructed continued
 
 ## Hands-on Checkpoints
 
-Checked slices record mechanically verified implementation only, not learner feedback, formal approval, or completed participation. Eighteen domain and sixteen browser checks passed; see docs/VERIFICATION.md.
+Checked slices record mechanically verified implementation only, not learner feedback, formal approval, or completed participation. Eighteen domain and sixteen local browser checks passed; all sixteen browser checks also passed at the actual public deployment. See docs/VERIFICATION.md.
 
 - [ ] Actual owner feedback on a usable core journey; not substituted by agent browser tests.
 - [ ] Final owner review of the released workflow; report actual response and any resulting changes.
