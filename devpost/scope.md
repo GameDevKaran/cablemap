@@ -19,7 +19,7 @@ A community presenter arranging a small AV desk before an event, currently check
 Select devices from a six-type authored catalog; connect declared input/output ports; inspect direction, compatibility and occupied-input errors; repair the path; save/reload locally; export a printable patch list and labels. A keyboard-accessible list editor accompanies the diagram.
 
 ## Inspiration & Identity
-Clear, practical signal-path explanations. The learner requests clear visual feedback and a complete, demonstrable workflow. First-screen layout and visual style remain for the product stage. WireViz is a known adjacent documentation tool, not evidence that the underlying diagramming idea is novel.
+Clear, practical signal-path explanations. The learner requests clear visual feedback and a complete, demonstrable workflow. On 23 October the owner explicitly delegated the first-screen/layout decision to the agent; the chosen arrangement and visual style are recorded in devpost/prd.md as agent decisions. No further layout answer is needed. WireViz is a known adjacent documentation tool, not evidence that the underlying diagramming idea is novel.
 
 ## Why This Matters to the Learner
 The user wants the finalized eight urgent applications built, deployed and verified by October24 IST. A personal motivation or learning outcome specific to AV work has not been supplied and is not invented here.

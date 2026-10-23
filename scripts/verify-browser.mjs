@@ -1,0 +1,105 @@
+import { chromium, expect } from '@playwright/test';
+import { spawn } from 'node:child_process';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const external = process.env.CABLEMAP_BASE_URL;
+const base = external ?? 'http://127.0.0.1:8784';
+const out = path.resolve(external ? '.local/live-browser' : '.local/browser');
+await fs.mkdir(out, { recursive: true });
+let server;
+if (!external) {
+  server = spawn(process.execPath, ['scripts/serve.mjs'], { stdio: ['ignore', 'pipe', 'pipe'] });
+  await new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(Error('Preview did not start')), 10000);
+    server.stdout.once('data', () => { clearTimeout(timer); resolve(); });
+    server.once('exit', code => { clearTimeout(timer); reject(Error(`Preview exited ${code}`)); });
+  });
+}
+const browser = await chromium.launch();
+const context = await browser.newContext({ viewport: { width: 1440, height: 1080 }, recordVideo: { dir: path.join(out, 'video'), size: { width: 1440, height: 1080 } } });
+const page = await context.newPage();
+const report = { application: 'CableMap', base, environment: external ? 'public' : 'local', passed: false, checks: [], browserErrors: [], consoleErrors: [] };
+page.on('pageerror', error => report.browserErrors.push(error.message));
+page.on('console', message => { if (message.type() === 'error') report.consoleErrors.push(message.text()); });
+let confirmAction = 'accept';
+page.on('dialog', async dialog => { if (dialog.type() === 'beforeunload' || confirmAction === 'accept') await dialog.accept(); else await dialog.dismiss(); });
+const count = () => page.locator('#cable-list > li');
+async function attempt(source, destination) {
+  await page.locator('#source-port').selectOption(source); await page.locator('#destination-port').selectOption(destination); await page.locator('#connect').click();
+}
+try {
+  const response = await page.goto(base); if (response.status() !== 200) throw Error('Application did not return HTTP 200');
+  const headers = response.headers();
+  if (!headers['content-security-policy']?.includes("object-src 'none'") || headers['x-content-type-options'] !== 'nosniff') throw Error('Essential security headers are missing');
+  report.checks.push('HTTP success, restricted content policy and MIME protection');
+  await expect(count()).toHaveCount(4); await expect(page.locator('.catalog-card')).toHaveCount(6);
+  await expect(page.locator('.status-pill')).toHaveText('✓ Paths connected');
+  report.checks.push('labeled five-device/four-cable example and all six catalog types');
+  await page.screenshot({ path: path.join(out, 'cablemap-workspace.png'), fullPage: true });
+  await attempt('laptop-1:line-out', 'projector-1:hdmi-in');
+  await expect(page.locator('#connection-result')).toContainText('cannot convert'); await expect(count()).toHaveCount(4);
+  await expect(page.locator('.rejected-edge')).toHaveCount(1); report.checks.push('signal mismatch explanation and separate rejected diagram preview');
+  await page.screenshot({ path: path.join(out, 'cablemap-invalid-connection.png'), fullPage: true });
+  await attempt('projector-1:hdmi-in', 'laptop-1:hdmi-out'); await expect(page.locator('#connection-result')).toContainText('output to an input'); await expect(count()).toHaveCount(4);
+  report.checks.push('reversed direction rejected without graph mutation');
+  await attempt('laptop-1:line-out', 'mixer-1:line-in-1'); await expect(page.locator('#connection-result')).toContainText('already used by cable C03'); await expect(count()).toHaveCount(4);
+  report.checks.push('occupied input identifies its existing cable and preserves it');
+  await page.locator('#disconnect-C02').click(); await expect(page.locator('.status-pill')).toHaveText('△ Review paths');
+  await expect(page.locator('.inspector')).toContainText('Missing upstream cable at USB audio interface');
+  report.checks.push('downstream speaker becomes unresolved when USB source is disconnected');
+  await attempt('laptop-1:usb-out', 'interface-1:usb-in'); await expect(count()).toHaveCount(4); await expect(page.locator('.status-pill')).toHaveText('✓ Paths connected');
+  report.checks.push('declared USB cable and internal converter restore the full path');
+  await page.locator('#label-laptop-1').fill('Presenter <img src=x onerror=alert(1)>'); await page.locator('#label-laptop-1').press('Tab');
+  await page.locator('#project-title').fill('Community hall / technical rehearsal'); await page.locator('#project-title').press('Tab');
+  await page.locator('#save-plan').click(); await expect(page.locator('#connection-result')).toContainText('Saved in this browser');
+  const before = await page.evaluate(() => localStorage.getItem('cablemap.project.v1'));
+  await page.reload(); await expect(count()).toHaveCount(4); await expect(page.locator('#project-title')).toHaveValue('Community hall / technical rehearsal');
+  if (await page.evaluate(() => localStorage.getItem('cablemap.project.v1')) !== before) throw Error('Reload changed the snapshot');
+  await expect(page.locator('img')).toHaveCount(0); report.checks.push('save/reload exact snapshot and literal HTML-like device labels');
+  await page.evaluate(() => { window.print = () => { window.__printCalled = true; }; }); await page.locator('#print-plan').click();
+  if (!await page.evaluate(() => window.__printCalled === true)) throw Error('Print dialog not requested');
+  await expect(page.locator('#print-sheet tbody tr')).toHaveCount(4); await expect(page.locator('#print-sheet')).toContainText('Presenter <img');
+  const acceptedIds = await page.locator('.cable-id').allTextContents(); const printedIds = await page.locator('#print-sheet tbody tr td:first-child').allTextContents();
+  if (acceptedIds.join('|') !== printedIds.join('|')) throw Error('Print rows differ from accepted graph');
+  await page.emulateMedia({ media: 'print' }); await expect(page.locator('#app')).toBeHidden(); await expect(page.locator('#print-sheet')).toBeVisible();
+  await page.pdf({ path: path.join(out, 'cablemap-patch-sheet.pdf'), format: 'A4', printBackground: true });
+  await page.emulateMedia({ media: 'screen' }); report.checks.push('native print invocation, exact accepted cable rows, print media and PDF evidence');
+  await page.locator('#disconnect-C01').click(); await page.locator('#print-plan').click(); await expect(page.locator('#print-sheet')).toContainText('UNRESOLVED'); await expect(page.locator('#print-sheet tbody tr')).toHaveCount(3);
+  report.checks.push('incomplete paths remain explicitly unresolved in printed output');
+  confirmAction = 'dismiss'; await page.locator('#start-blank').click(); await expect(count()).toHaveCount(3);
+  confirmAction = 'accept'; await page.locator('#reload-plan').click(); await expect(count()).toHaveCount(4);
+  report.checks.push('replacement confirmation cancels safely and explicit reload restores saved state');
+  await page.evaluate(() => localStorage.setItem('cablemap.project.v1', '{bad-json'));
+  await page.locator('#reload-plan').click(); await expect(page.locator('#connection-result')).toContainText('unavailable or invalid'); await expect(count()).toHaveCount(4);
+  if (await page.evaluate(() => localStorage.getItem('cablemap.project.v1')) !== '{bad-json') throw Error('Corrupt snapshot was overwritten');
+  await page.locator('#save-plan').click(); report.checks.push('corrupt load preserves current graph and original stored data');
+  await page.locator('#start-blank').focus(); await page.keyboard.press('Enter'); await expect(count()).toHaveCount(0);
+  await page.locator('#add-laptop').focus(); await page.keyboard.press('Enter');
+  await page.locator('#add-projector').focus(); await page.keyboard.press('Enter');
+  const optionValues = await page.locator('#source-port option').evaluateAll(options => options.map(option => option.value));
+  const source = optionValues.find(value => value.endsWith(':hdmi-out')); const target = optionValues.find(value => value.endsWith(':hdmi-in'));
+  if (!source || !target) throw Error('New device ports unavailable');
+  await page.locator('#source-port').focus(); await page.keyboard.press('ArrowDown'); await page.keyboard.press('Tab');
+  await page.keyboard.press('ArrowDown'); await page.keyboard.press('ArrowDown'); await page.keyboard.press('ArrowDown'); await page.keyboard.press('ArrowDown'); await page.keyboard.press('Tab');
+  await expect(page.locator('#connect')).toBeFocused(); await page.keyboard.press('Enter'); await expect(count()).toHaveCount(1);
+  await expect(page.locator('.status-pill')).toHaveText('✓ Paths connected');
+  report.checks.push('keyboard-only add, port selection, connection and focused result');
+  await page.setViewportSize({ width: 390, height: 844 }); await page.screenshot({ path: path.join(out, 'cablemap-mobile.png'), fullPage: true });
+  if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)) throw Error('Page overflows at 390px');
+  report.checks.push('390px viewport with no page overflow');
+  const independent = await browser.newContext(); const other = await independent.newPage(); await other.goto(base); await expect(other.locator('#cable-list > li')).toHaveCount(4);
+  if (await other.evaluate(() => localStorage.getItem('cablemap.project.v1')) !== null) throw Error('Independent context inherited storage');
+  await independent.close(); report.checks.push('independent browser storage and fresh example');
+  const denied = await browser.newContext(); await denied.addInitScript(() => { Storage.prototype.setItem = () => { throw new DOMException('Denied', 'SecurityError'); }; });
+  const deniedPage = await denied.newPage(); await deniedPage.goto(base); await deniedPage.locator('#save-plan').click(); await expect(deniedPage.locator('#connection-result')).toContainText('Save failed'); await expect(deniedPage.locator('#cable-list > li')).toHaveCount(4);
+  await denied.close(); report.checks.push('denied storage produces visible failure while graph remains usable');
+  if (report.browserErrors.length || report.consoleErrors.length) throw Error('Browser errors were recorded');
+  report.passed = true;
+} catch (error) {
+  report.failure = String(error); process.exitCode = 1;
+  await page.screenshot({ path: path.join(out, 'failure.png'), fullPage: true }).catch(() => {});
+} finally {
+  await context.close(); await browser.close(); server?.kill();
+  await fs.writeFile(path.join(out, 'verification.json'), JSON.stringify(report, null, 2));
+  console.log(JSON.stringify(report, null, 2));
+}
