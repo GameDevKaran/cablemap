@@ -1,6 +1,6 @@
 # CableMap static release
 
-Status: complete verified local build; public deployment pending the scoped hosting allowance and final site preflight. Source remains private. Only project `tough-melody-508008-p8` (number `564976398462`) and account `cgkaransahu@gmail.com` are authorized.
+Status: complete verified local build. The owner approved USD1 for CableMap through30 November2026 under `user-20261023-cablemap-firebase-usd1`; public deployment/live verification is the next step. Source remains private. Only project `tough-melody-508008-p8` (number `564976398462`) and account `cgkaransahu@gmail.com` are authorized.
 
 ## Concrete deployment
 
@@ -26,7 +26,7 @@ Request: **up to USD1 for CableMap only through 30 November 2026**. This is a sp
 
 Official Hosting pricing reviewed 23 October: no-cost storage up to10GB and transfer up to10GB/month, shared across the project; Blaze overage is USD0.026/GB storage and USD0.15/GB transfer. At 10,000 full uncached loads of this 51,045-byte artifact, transfer is about0.511GB; even if the shared transfer allowance were already used, that is about USD0.08 before taxes. Expected incremental cost under that traffic assumption is USD0–0.20; traffic and shared usage can vary. No zero-cost guarantee or hard cap is asserted. [Official usage and pricing](https://firebase.google.com/docs/hosting/usage-quotas-pricing).
 
-No publication until the owner approves the allowance or a verified no-paid-use path exists. Do not change the project's billing plan, disable shared billing, or affect older apps to enforce this allowance.
+The owner approved this exact allowance on23 October. It authorizes the isolated app deployment, not source publication or other projects. Do not change the project's billing plan, disable shared billing, or affect older apps to enforce this allowance.
 
 ## Live verification and rollback
 

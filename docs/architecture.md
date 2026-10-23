@@ -1,6 +1,6 @@
 # CableMap: architecture
 
-Proposed design; no components have been implemented.
+The original outline below is implemented by the local application as of 23 October. Current component contracts and actual verification are in [the specification](../devpost/spec.md) and [verification record](VERIFICATION.md). Public deployment remains a separate release gate.
 
 Select devices from a small authored catalog → connect input/output ports → validate graph constraints → inspect an error path → change a cable/adapter → export patch sheet and labels. Use TypeScript, an in-browser graph model and local persistence; no paid runtime AI or account is necessary. AI-assisted development through the official Skill Pack is the event integration.
 

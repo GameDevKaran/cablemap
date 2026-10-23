@@ -54,7 +54,9 @@ Checked slices record mechanically verified implementation only, not learner fee
 ## Code Tour and App Map
 
 - [ ] Explain one actual connection from controls through validation to printed output with concrete code locations.
-- [ ] Save a compact app map; distinguish explanation supplied from learning personally reported.
+- [x] Save a compact app map; distinguish explanation supplied from learning personally reported.
+
+Prepared reference: app-map.html maps the actual connection → validation → graph/print route at implementation commit9f181fc. It is an offline code reference, not evidence that the owner performed a walkthrough or reported learning. The hands-on/activity boxes remain unchecked.
 
 ## Revisions
 
