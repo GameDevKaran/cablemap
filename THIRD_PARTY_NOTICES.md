@@ -13,4 +13,4 @@ Development-only dependencies pinned by package-lock.json:
 | @types/node | 24.10.0 | MIT |
 | undici-types | 7.16.0 | MIT |
 
-Their installed package licenses remain authoritative. Node modules, compiler, browser binaries, tests and tools are not part of the static deployment artifact. The official Skill Pack is referenced with its pinned provenance in SKILL_PACK_PROVENANCE.md; its source was not copied into this app.
+Their installed package licenses remain authoritative. Node modules, compiler, browser binaries, tests and tools are not part of the static deployment artifact. Development guidance: the MIT-licensed Devpost Learn Skill Pack, https://github.com/challengepost/learn-ai-basics at a0f065781873e8a7ed9a9a705a8dafa6a0810439 (copyright 2026 Devpost). Its source was not copied into this app.

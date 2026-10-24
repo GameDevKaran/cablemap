@@ -8,7 +8,6 @@ Validate small AV signal graphs and export patch lists.
 
 The application validates declared AV connections, explains upstream gaps, saves/reloads locally, and prints the reviewed patch list. Eighteen domain tests, sixteen local browser checks, and the same sixteen checks against the public HTTPS deployment pass. Generic profiles are an authored planning model, not tested commercial hardware specifications.
 
-The scope is owner-approved. The owner delegated routine layout decisions and instructed continued implementation. [Product requirements](devpost/prd.md), [technical specification](devpost/spec.md), and [build record](devpost/checklist.md) preserve that provenance; formal learner review and personal reflection are not fabricated.
 
 ## Intended use
 
@@ -16,7 +15,7 @@ A community presenter setting up a small AV desk needs a correct signal path bef
 
 ## Workflow
 
-Select devices from a small authored catalog → connect input/output ports → validate graph constraints → inspect an error path → change a cable/adapter → export patch sheet and labels. Use TypeScript, an in-browser graph model and local persistence; no paid runtime AI or account is necessary. AI-assisted development through the official Skill Pack is the event integration.
+Select devices from a small authored catalog → connect input/output ports → validate graph constraints → inspect an error path → change a cable/adapter → export patch sheet and labels. Use TypeScript, an in-browser graph model and local persistence; no paid runtime AI or account is necessary.
 
 ## Development
 
@@ -42,6 +41,10 @@ Save is explicit. The single saved project lives under `cablemap.project.v1` in 
 User labels render as text. Static responses use a same-origin content policy, MIME protection, and disabled camera/microphone/geolocation. No power, mains, soldering, phantom-power, or pin-level guidance is provided. This source repository stays private until owner authorization.
 
 Keep credentials in local ignored files or the deployment secret store. Do not commit user data, provider tokens or private evaluation records.
+
+## Development approach
+
+Developed through AI-assisted coding and ChatGPT-assisted research. Verification results and their limits are documented in this repository. Development followed the official Devpost Learn Skill Pack with the owner’s approved scope; private learning and review records are maintained separately.
 
 ## License
 
